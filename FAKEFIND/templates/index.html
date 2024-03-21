@@ -1,0 +1,115 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap"
+    />
+  </head>
+  <body>
+    <div id="fileDirectory"></div>
+
+    <div class="desktop-2">
+      <div class="fakefind-wrapper">
+        <b class="fakefind">Fakefind</b>
+      </div>
+      <div class="desktop-2-inner">
+        <div class="frame-parent">
+          <div class="browse-or-drag-drop-csv-fil-wrapper">
+            <div class="browse-or-drag">Browse or Drag & Drop .csv file</div>
+          </div>
+          <div class="frame-group">
+
+            <form action="/upload" method="POST" enctype="multipart/form-data" id="fileForm">
+              <div class="choose-files-wrapper" onclick="openFileExplorer()">
+                <div class="choose-files">Choose Files</div>
+              </div>
+              <input type="file" id="fileInput" name="file" style="display: none;" onchange="submitForm()" />
+            </form>
+            
+
+            <div class="phbrowsers-bold-parent">
+              <img
+                class="phbrowsers-bold-icon"
+                alt=""
+                src="phbrowsersbold.svg"
+              />
+              <div class="choose-files">Give manual input</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="desktop-2-child">
+        <div class="generate-analysis-wrapper">
+          <div class="choose-files">Generate analysis</div>
+        </div>
+      </div>
+      <div class="frame-div">
+        <div class="frame-wrapper">
+          <div class="frame-container">
+            <div class="classifiers-parent">
+              <div class="browse-or-drag">Classifiers</div>
+              <div class="select-one-of">
+                Select one of the options to analyze your data
+              </div>
+            </div>
+            <div class="frame-wrapper1">
+              <div class="choose-an-option-parent">
+                <div class="choose-files">Choose an option</div>
+                <img
+                  class="phbrowsers-bold-icon"
+                  alt=""
+                  src="carbonchevrondown.svg"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Function to trigger file input when "Choose Files" is clicked
+      function openFileExplorer() {
+        var fileInput = document.getElementById('fileInput');
+        fileInput.click();
+      }
+    
+      // Function to send the selected file to the server via AJAX
+      function sendFile() {
+        var fileInput = document.getElementById('fileInput');
+        var selectedFile = fileInput.files[0];
+    
+        if (selectedFile) {
+          var formData = new FormData();
+          formData.append('file', selectedFile);
+    
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/upload', true);
+          xhr.onload = function() {
+            if (xhr.status === 200) {
+              var response = xhr.responseText;
+              alert(response); // You can display the response in an alert or handle it as needed
+            } else {
+              alert('Error uploading file.');
+            }
+          };
+          xhr.send(formData);
+        }
+      }
+    </script>
+    
+    
+    
+    
+    
+
+  </body>
+</html>
